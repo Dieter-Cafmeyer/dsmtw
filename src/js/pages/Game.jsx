@@ -182,7 +182,7 @@ export default class Game extends Component {
     this.context.router.transitionTo(`/`);
   }
 
-  question(number) {
+  question() {
     //this.setState({question: number});
     console.log(`test`);
   }

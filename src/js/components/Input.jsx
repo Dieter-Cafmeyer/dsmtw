@@ -17,7 +17,7 @@ export default class Input extends Component {
     this.setState({value: value});
   }
 
-  show() {
+  handleShow() {
     if (show === false) {
       document.querySelector(`.round1`).style.display = `flex`;
       show = true;
@@ -44,7 +44,7 @@ export default class Input extends Component {
     return (
       <div className='round'>
         <div className='roundBtn'>
-          <button onClick={this.show}>1</button>
+          <button onClick={this.handleShow}>1</button>
         </div>
 
         <ul id='holder-q' className='round1'>
