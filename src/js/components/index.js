@@ -1,5 +1,5 @@
 export Input from './Input';
-export Sidebar from './Sidebar';
-export SidebarItem from './SidebarItem';
+export Dashboard from './Dashboard';
+export DashboardItem from './DashboardItem';
 export ImageHolder from './ImageHolder';
 export Keyword from './Keyword';

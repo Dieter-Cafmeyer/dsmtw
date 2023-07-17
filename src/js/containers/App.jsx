@@ -2,7 +2,7 @@ import React from 'react';
 import {Match, BrowserRouter as Router} from 'react-router';
 //import {Router, Route, hashHistory} from 'react-router';
 
-import {Home, Game} from '../pages/';
+import {Home, Game, First} from '../pages/';
 
 const App = () => {
 
@@ -20,6 +20,11 @@ const App = () => {
         <Match
             exactly pattern='/game'
             component={Game}
+        />
+
+        <Match
+            exactly pattern='/first'
+            component={First}
         />
 
       </main>

@@ -1,31 +1,48 @@
 'use strict';
 
 import React, {Component} from 'react';
-let show = false;
+
+let question = 1;
 
 export default class Input extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      value: `0`
+      first: `1`
     };
   }
 
-  handleInputChange(e) {
-    const value = e.target.value.toLowerCase();
-    this.setState({value: value});
+
+  componentDidMount() {
+    document.body.onkeyup = function(e) {
+      if (e.key === ` ` || e.code === `Space` || e.keyCode === 32 || e.code === `ArrowRight` || e.keyCode === 39) {
+        question += 1;
+      } else if (e.code === `ArrowLeft` || e.keyCode === 37) {
+        question -= 1;
+      }
+
+      const quests = document.querySelectorAll(`.quests`);
+      [].forEach.call(quests, function(el) {
+        el.classList.remove(`active`);
+      });
+
+      const el = document.querySelectorAll(`.q${  question}`);
+      el[0].classList.add(`active`);
+    };
   }
 
-  handleShow() {
-    if (show === false) {
-      document.querySelector(`.round1`).style.display = `flex`;
-      show = true;
-    } else {
-      document.querySelector(`.round1`).style.display = `none`;
-      show = false;
-    }
+  handleInputNext() {
 
+    //const current = this.getState({value});
+
+    // [].forEach.call(quests, function(el) {
+    //   el.classList.remove(`active`);
+    // });
+
+    //console.log(current);
+
+    //this.setState({value: value});
   }
 
   question(number) {
@@ -43,10 +60,6 @@ export default class Input extends Component {
 
     return (
       <div className='round'>
-        <div className='roundBtn'>
-          <button onClick={this.handleShow}>1</button>
-        </div>
-
         <ul id='holder-q' className='round1'>
           <li className='quests q1 active' onClick={this.question.bind(1)}>1</li>
           <li className='quests q2' onClick={this.question.bind(1)}>2</li>

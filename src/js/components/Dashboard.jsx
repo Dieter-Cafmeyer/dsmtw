@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react';
 
-import {SidebarItem, Input} from '../components/';
+import {DashboardItem} from '.';
 
-export default class Sidebar extends Component {
+export default class Dashboard extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -22,26 +22,24 @@ export default class Sidebar extends Component {
     const rows = [];
 
     users.forEach(function(user) {
-      rows.push(<SidebarItem naam={user.name} punten={user.seconds} key={user.socketId} />);
+      if (user.name !== `admin`) {
+        rows.push(<DashboardItem naam={user.name} punten={user.seconds} key={user.socketId} />);
+      }
     });
 
     return (
-      <section className='sidebar'>
-        <Input />
-        <h1><img className='logoMain' src='../assets/img/logo-full.png' /></h1>
+      <section className='dashboard'>
+        <h1><img className='logoMain' src='../assets/img/logo-sarlat.png' /></h1>
 
         <div className='users'>
           {rows}
         </div>
-
-
-
       </section>
     );
   }
 }
 
-Sidebar.propTypes = {
+Dashboard.propTypes = {
   users: React.PropTypes.array,
   socket: React.PropTypes.object
 };

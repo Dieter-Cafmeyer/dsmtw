@@ -41,11 +41,12 @@ io.on(`connection`, socket => {
   //let test = localStorage.getItem(`user`, u.socketId);
   const {id: socketId} = socket;
   const username = socket.handshake.query.name;
+  const seconds = socket.handshake.query.seconds;
 
   const user = {
     socketId,
     name: username,
-    seconds: 60
+    seconds: seconds
   };
 
   users.push(user);

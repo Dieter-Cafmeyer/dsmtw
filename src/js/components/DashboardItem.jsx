@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 
-export default class SidebarItem extends Component {
+export default class DashboardItem extends Component {
 
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ export default class SidebarItem extends Component {
     const {naam, punten} = this.props;
 
     return (
-      <div className={`sidebar-item ${naam}`}>
+      <div className={`dashboard-item ${naam}`}>
         <h1>{naam}</h1>
         <h2>{punten}</h2>
       </div>
@@ -22,7 +22,7 @@ export default class SidebarItem extends Component {
   }
 }
 
-SidebarItem.propTypes = {
+DashboardItem.propTypes = {
   naam: React.PropTypes.string,
   punten: React.PropTypes.number
 };

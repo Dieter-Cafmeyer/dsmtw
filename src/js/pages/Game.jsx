@@ -1,6 +1,6 @@
 `use strict`;
 import React, {Component, PropTypes} from 'react';
-import {Sidebar} from '../components/';
+import {Dashboard} from '../components/';
 import {isEmpty} from 'lodash';
 
 import io from 'socket.io-client';
@@ -34,7 +34,7 @@ export default class Game extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      seconden: `60`,
+      seconden: localStorage.getItem(`seconds`),
       users: [],
       me: [],
       name: ``,
@@ -46,12 +46,15 @@ export default class Game extends Component {
 
     counter = setInterval(this.timer.bind(this), 1000);
 
-    if (isEmpty(localStorage.name)) {
+    if (isEmpty(localStorage.name) || isEmpty(localStorage.seconds)) {
       this.context.router.transitionTo(`/`);
     } else {
 
       const name = localStorage.getItem(`name`);
-      socket = io(`/`, {query: `name=${name}`});
+      const seconds = localStorage.getItem(`seconds`);
+      
+
+      socket = io(`/`, {query: `name=${name}&seconds=${seconds}`});
       socket.on(`init`, this.handleWSInit);
 
       socket.on(`join`, this.handleWSJoin);
@@ -65,14 +68,21 @@ export default class Game extends Component {
     if (running) {
       let voorlopig = this.state.seconden;
       voorlopig --;
-      this.setState({seconden: voorlopig});
-      this.sendTimes();
+
+      if (voorlopig <= 0) {
+        this.setState({seconden: 0});
+        this.sendTimes();
+      } else {
+        this.setState({seconden: voorlopig});
+        this.sendTimes();
+      }      
     }
 
     console.log(this.state.seconden);
 
     if (this.state.seconden <= 0) {
       countdown.pause();
+      countdownComplete.currentTime = 0;
       countdownComplete.play();
       clearTimeout(counter);
     }
@@ -170,6 +180,11 @@ export default class Game extends Component {
     let voorlopig = parseInt(this.state.seconden);
     this.sendTimes(voorlopig - 20);
     voorlopig -= 20;
+    
+    if (voorlopig <= 0) {
+      voorlopig = 0;
+    }
+
     this.setState({seconden: voorlopig});
     addsubtract.pause();
     addsubtract.currentTime = 0;
@@ -182,17 +197,12 @@ export default class Game extends Component {
     this.context.router.transitionTo(`/`);
   }
 
-  question() {
-    //this.setState({question: number});
-    console.log(`test`);
-  }
-
   render() {
     const {users, seconden} = this.state;
     return (
       <section className='game-page'>
 
-        <Sidebar users={users} socket={socket} />
+        <Dashboard users={users} socket={socket} />
 
         <div className='back'>
             <img src='../assets/svg/logout.svg' onClick={this.logout.bind(this)} /> <p onClick={this.logout.bind(this)}>Terug</p>

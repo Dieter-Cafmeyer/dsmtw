@@ -13,18 +13,20 @@ export default class Home extends Component {
     super(props, context);
     this.state = {
       name: ``,
+      seconds: ``,
       error: ``
     };
 
-    localStorage.removeItem(`name`);
+    localStorage.removeItem(`name`, `seconds`);
   }
 
   validate() {
     const {name} = this.state;
+    const {seconds} = this.state;
 
     let error = ``;
 
-    if (!name) {
+    if (!name && !seconds) {
       error = `vul een gebruikersnaam in`;
     }
 
@@ -39,26 +41,30 @@ export default class Home extends Component {
 
     if (isEmpty(error)) {
       localStorage.setItem(`name`, this.state.name);
+      localStorage.setItem(`seconds`, this.state.seconds);
       this.context.router.transitionTo(`/game`);
 
     } else {
-      this.setState({error, name: ``});
+      this.setState({error, name: ``, seconds: ``});
       document.querySelector(`.name-input`).classList.add(`input-error`);
+      document.querySelector(`.seconds-input`).classList.add(`input-error`);
     }
   }
 
   changeHandler() {
 
     const name = document.querySelector(`.name-input`);
+    const seconds = document.querySelector(`.seconds-input`);
 
     this.setState({
       name: name.value,
+      seconds: seconds.value,
     });
   }
 
   render() {
 
-    const {name, error} = this.state;
+    const {name, seconds, error} = this.state;
 
     return (
         <div className='login-page'>
@@ -67,10 +73,14 @@ export default class Home extends Component {
            <form action='' method='post' acceptCharset='utf-8' onSubmit={e => this.submitHandler(e)}>
               <p className='naam-form'>Wat is jouw naam?</p>
               <input type='text' name='name' className='name-input' maxLength='15' placeholder='Gebruikersnaam' value={name} onChange={() => this.changeHandler()}  />
+
+              
+
+              <p className='naam-form'><br /><br /><br />Aantal seconden?</p>
+              <input type='number' name='seconds' className='seconds-input' min='0' placeholder='Seconden' value={seconds} onChange={() => this.changeHandler()}  />
               <div className='error'>{error}</div>
 
               <button type='submit' value='Verder'>Verder</button>
-              <p className='enter-to-enter'>of druk op enter</p>
             </form>
           </div>
         </div>
